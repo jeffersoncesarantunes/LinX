@@ -14,7 +14,7 @@ Lightweight forensic correlation engine that cross-references LinSpec audit resu
 
 ## Etymology
 
-**LinX** = **Linux** + **Cross-reference (Correlate)**.
+**LinX** = **Linux** + **X** — o ponto de encontro entre auditoria de hardening e análise de memória.
 
 The missing link between posture audit (LinSpec) and live memory analysis (K-Scanner) — answering not just *"what is vulnerable?"* but *"what is the combined risk?"*
 
