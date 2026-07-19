@@ -6,6 +6,10 @@ LDFLAGS=-pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack -Wl,-z,separate-code
 TARGET=linx
 SRC=src/main.c src/correlate.c src/report.c
 
+ifdef STATIC
+CFLAGS += -static
+endif
+
 .PHONY: all clean test install install-man uninstall lint docker debug
 
 all: $(TARGET)

@@ -96,10 +96,21 @@ int print_report(ctx_t *ctx)
     return 0;
 }
 
+static int has_path_traversal(const char *path)
+{
+    return strstr(path, "..") != NULL;
+}
+
 int export_json(ctx_t *ctx, const char *outdir)
 {
     char dir[256] = "reports";
-    if (outdir) snprintf(dir, sizeof(dir), "%s", outdir);
+    if (outdir) {
+        if (has_path_traversal(outdir)) {
+            fprintf(stderr, "Error: path traversal detected in output directory.\n");
+            return -1;
+        }
+        snprintf(dir, sizeof(dir), "%s", outdir);
+    }
 
     mkdir(dir, 0755);
 

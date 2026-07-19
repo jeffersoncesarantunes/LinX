@@ -47,10 +47,6 @@ LinSpec tells you which kernel hardening parameters are misconfigured. K-Scanner
 
 ---
 
-## Screenshots
-
-![LinX Screenshot 1](Images/linx1.png)
-![LinX Screenshot 2](Images/linx2.png)
 
 ---
 
@@ -195,6 +191,7 @@ make install      # install to /usr/local/bin
 ├── LICENSE
 ├── Makefile
 ├── SECURITY.md
+├── Images/
 └── README.md
 ```
 

@@ -20,6 +20,7 @@ static int file_read(const char *path, char **out, size_t *out_len)
     *out = malloc((size_t)st.st_size + 1);
     if (!*out) { fclose(f); return -1; }
     *out_len = (size_t)fread(*out, 1, (size_t)st.st_size, f);
+    if (*out_len == 0 && st.st_size > 0) { free(*out); *out = NULL; fclose(f); return -1; }
     fclose(f);
     (*out)[*out_len] = '\0';
     return 0;
