@@ -1,0 +1,39 @@
+.TH LINX 1 "2026-07-19" "LinX" "User Commands"
+.SH NAME
+linx \- forensic correlation engine for LinSpec and K-Scanner
+.SH SYNOPSIS
+.B linx
+[\fI--linspec FILE\fR]
+[\fI--kscanner FILE\fR]
+[\fI--json\fR]
+[\fI--output-dir DIR\fR]
+[\fI--help\fR]
+.SH DESCRIPTION
+LinX cross-references LinSpec kernel hardening audit reports
+with K-Scanner memory analysis results. It applies correlation rules
+to identify dangerous combinations of misconfigurations and active
+memory threats, producing severity-classified findings.
+.SH OPTIONS
+.TP
+.B \--linspec FILE
+Path to LinSpec report.json.
+.TP
+.B \--kscanner FILE
+Path to K-Scanner results JSON.
+.TP
+.B \--json
+Export findings in JSON format.
+.TP
+.B \--output-dir DIR
+Output directory for reports (default: reports/).
+.TP
+.B \--help
+Display this help message and exit.
+.SH EXIT STATUS
+.B 0
+on success, 1 on error.
+.SH AUTHOR
+Jefferson Cesar Antunes
+.SH SEE ALSO
+.BR linspec (1),
+.BR kscanner (1)
