@@ -6,15 +6,17 @@
 
 static void print_usage(void)
 {
-    printf(BOLD "LinX - Forensic Correlation Engine\n" RESET);
-    printf("Usage: linx [options]\n\n");
-    printf("Options:\n");
-    printf("  -l, --linspec FILE   LinSpec report.json path\n");
-    printf("  -k, --kscanner FILE  K-Scanner results.json path\n");
-    printf("  -j, --json           Export JSON correlation report\n");
-    printf("  -o, --output-dir DIR Output directory (default: reports/)\n");
-    printf("  -V, --version        Show version\n");
-    printf("  -h, --help           Show this help\n");
+    printf(CYN "╭─── LinX ───────────────────────────────────────────────────────────╮\n" RESET);
+    printf(CYN "│" RESET "  " BOLD "Forensic Correlation Engine" RESET "  " CYN "                               │\n" RESET);
+    printf(CYN "│" RESET "  " BOLD "Usage:" RESET " linx [options]" CYN "                                        │\n" RESET);
+    printf(CYN "│" RESET "                                                              " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -l, --linspec FILE   LinSpec report.json path              " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -k, --kscanner FILE  K-Scanner results.json path           " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -j, --json           Export JSON correlation report        " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -o, --output-dir DIR Output directory (default: reports/)  " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -V, --version        Show version                          " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -h, --help           Show this help                        " CYN "│\n" RESET);
+    printf(CYN "╰────────────────────────────────────────────────────────────────────╯\n" RESET);
 }
 
 int main(int argc, char **argv)
@@ -48,7 +50,7 @@ int main(int argc, char **argv)
     }
 
     if (!linspec_path && !kscanner_path) {
-        printf("At least one of --linspec or --kscanner is required.\n");
+        fprintf(stderr, "  " RED "x" RESET " At least one of --linspec or --kscanner is required.\n");
         print_usage();
         return 1;
     }
@@ -56,35 +58,36 @@ int main(int argc, char **argv)
     ctx_t ctx;
     ctx_init(&ctx);
 
-    printf(BOLD "+---LinX --------------------------------------------------------------------------+\n" RESET);
-    printf("  Forensic Correlation Engine\n");
-    printf(BOLD "+-------------------------------------------------------------------------------+\n\n" RESET);
+    printf(CYN "╭─── LinX ───────────────────────────────────────────────────────────╮\n" RESET);
+    printf(CYN "│" RESET "                     " BOLD "Forensic Correlation Engine" RESET "                    " CYN "│\n" RESET);
+    printf(CYN "│" RESET "                        linux security fusion                       " CYN "│\n" RESET);
+    printf(CYN "╰────────────────────────────────────────────────────────────────────╯\n" RESET);
 
     if (linspec_path) {
         if (parse_linspec_file(&ctx, linspec_path) != 0) {
-            fprintf(stderr, "Error: failed to parse LinSpec report: %s\n", linspec_path);
+            fprintf(stderr, "  " RED "x" RESET " Failed to parse LinSpec report: %s\n", linspec_path);
             return 1;
         }
-        printf("  " GRN "o" RESET " LinSpec report loaded (%d checks, %d VULN)\n",
+        printf("  " GRN "◆" RESET " LinSpec report loaded  (%d checks, %d VULN)\n",
                ctx.checks_total, ctx.checks_vuln);
     }
 
     if (kscanner_path) {
         if (parse_kscanner_file(&ctx, kscanner_path) != 0) {
-            fprintf(stderr, "Error: failed to parse K-Scanner results: %s\n", kscanner_path);
+            fprintf(stderr, "  " RED "x" RESET " Failed to parse K-Scanner results: %s\n", kscanner_path);
             return 1;
         }
-        printf("  " GRN "o" RESET " K-Scanner results loaded (%d records)\n",
+        printf("  " GRN "◆" RESET " K-Scanner results loaded  (%d records)\n",
                ctx.kscanner_count);
     }
 
-    printf("\n" BOLD "+---Correlation Analysis-------------------------------------------------------+\n" RESET);
+    printf(CYN "\n╭─── Correlation Analysis ───────────────────────────────────────────────╮\n" RESET);
     run_correlation(&ctx);
     print_report(&ctx);
 
     if (flag_json) {
         if (export_json(&ctx, output_dir) == 0) {
-            printf("\n  " GRN "o" RESET " JSON correlation report generated\n");
+            printf("\n  " GRN "◆" RESET " JSON correlation report generated\n");
         }
     }
 

@@ -14,13 +14,33 @@ void ctx_init(ctx_t *ctx)
 static int file_read(const char *path, char **out, size_t *out_len)
 {
     FILE *f = fopen(path, "rb");
-    if (!f) return -1;
+    if (!f) {
+        fprintf(stderr, "  " RED "x" RESET " Cannot open file: %s\n", path);
+        return -1;
+    }
     struct stat st;
-    if (fstat(fileno(f), &st) != 0) { fclose(f); return -1; }
+    if (fstat(fileno(f), &st) != 0) {
+        fprintf(stderr, "  " RED "x" RESET " Cannot stat file: %s\n", path);
+        fclose(f);
+        return -1;
+    }
+    if (st.st_size == 0) {
+        fprintf(stderr, "  " RED "x" RESET " File is empty: %s\n", path);
+        fclose(f);
+        return -1;
+    }
     *out = malloc((size_t)st.st_size + 1);
-    if (!*out) { fclose(f); return -1; }
+    if (!*out) {
+        fprintf(stderr, "  " RED "x" RESET " Out of memory reading: %s\n", path);
+        fclose(f);
+        return -1;
+    }
     *out_len = (size_t)fread(*out, 1, (size_t)st.st_size, f);
-    if (*out_len == 0 && st.st_size > 0) { free(*out); *out = NULL; fclose(f); return -1; }
+    if (*out_len == 0 && st.st_size > 0) {
+        fprintf(stderr, "  " RED "x" RESET " Read error: %s\n", path);
+        free(*out); *out = NULL; fclose(f);
+        return -1;
+    }
     fclose(f);
     (*out)[*out_len] = '\0';
     return 0;
@@ -111,28 +131,42 @@ int parse_linspec_file(ctx_t *ctx, const char *path)
     size_t len = 0;
     if (file_read(path, &data, &len) != 0) return -1;
 
-    const char *p = data;
-
-    p = json_find_key(p, "hostname");
-    if (p) {
-        p = json_string(p, ctx->hostname, sizeof(ctx->hostname));
-        p = data;
+    const char *p = json_skip(data);
+    if (*p != '{') {
+        fprintf(stderr, "  " RED "x" RESET " LinSpec report must be a JSON object (starts with '{')\n");
+        free(data);
+        return -1;
     }
 
-    p = json_find_key(p, "kernel");
-    if (p) {
-        p = json_string(p, ctx->kernel, sizeof(ctx->kernel));
-        p = data;
+    const char *root = p;
+    const char *val;
+
+    val = json_find_key(root, "hostname");
+    if (val) {
+        json_string(val, ctx->hostname, sizeof(ctx->hostname));
     }
 
-    p = json_find_key(p, "timestamp");
-    if (p) {
-        p = json_string(p, ctx->timestamp, sizeof(ctx->timestamp));
-        p = data;
+    val = json_find_key(root, "kernel");
+    if (val) {
+        json_string(val, ctx->kernel, sizeof(ctx->kernel));
     }
 
-    p = json_find_key(p, "checks");
-    if (!p || *p != '[') { free(data); return -1; }
+    val = json_find_key(root, "timestamp");
+    if (val) {
+        json_string(val, ctx->timestamp, sizeof(ctx->timestamp));
+    }
+
+    p = json_find_key(root, "checks");
+    if (!p) {
+        fprintf(stderr, "  " RED "x" RESET " Missing 'checks' array in LinSpec report\n");
+        free(data);
+        return -1;
+    }
+    if (*p != '[') {
+        fprintf(stderr, "  " RED "x" RESET " 'checks' must be a JSON array in LinSpec report\n");
+        free(data);
+        return -1;
+    }
     p++;
     p = json_skip(p);
 
@@ -175,6 +209,10 @@ int parse_linspec_file(ctx_t *ctx, const char *path)
         else if (strcmp(ctx->linspec_checks[i].result, "PASS") == 0) ctx->checks_pass++;
     }
 
+    if (ctx->linspec_count == 0) {
+        fprintf(stderr, "  " YEL "!" RESET " No checks found in LinSpec report (empty array?)\n");
+    }
+
     return 0;
 }
 
@@ -185,7 +223,11 @@ int parse_kscanner_file(ctx_t *ctx, const char *path)
     if (file_read(path, &data, &len) != 0) return -1;
 
     const char *p = json_skip(data);
-    if (*p != '[') { free(data); return -1; }
+    if (*p != '[') {
+        fprintf(stderr, "  " RED "x" RESET " K-Scanner results must be a JSON array (starts with '[')\n");
+        free(data);
+        return -1;
+    }
     p++;
     p = json_skip(p);
 
@@ -215,6 +257,11 @@ int parse_kscanner_file(ctx_t *ctx, const char *path)
     }
 
     free(data);
+
+    if (ctx->kscanner_count == 0) {
+        fprintf(stderr, "  " YEL "!" RESET " No records found in K-Scanner results (empty array?)\n");
+    }
+
     return 0;
 }
 

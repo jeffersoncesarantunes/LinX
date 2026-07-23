@@ -56,11 +56,11 @@ cd LinX
 # Build the project
 make
 
-# Run with LinSpec report only
-sudo ./linx --linspec /path/to/report.json
+# Test with built-in sample report
+./linx -l tests/sample_linspec.json
 
 # Run with both LinSpec and K-Scanner
-sudo ./linx -l report.json -k kscan_results.json -j
+sudo ./linx -l /path/to/linspec_report.json -k /path/to/kscan_results.json -j
 ```
 
 ---
@@ -68,32 +68,33 @@ sudo ./linx -l report.json -k kscan_results.json -j
 ## Usage
 
 ```
-LinX - Forensic Correlation Engine
-Usage: linx [options]
-
-Options:
-  -l, --linspec FILE   LinSpec report.json path
-  -k, --kscanner FILE  K-Scanner results.json path
-  -j, --json           Export JSON correlation report
-  -o, --output-dir DIR Output directory (default: reports/)
-  -V, --version        Show version
-  -h, --help           Show this help
+╭─── LinX ───────────────────────────────────────────────────────────╮
+│  Forensic Correlation Engine                                       │
+│  Usage: linx [options]                                             │
+│                                                                    │
+│  -l, --linspec FILE   LinSpec report.json path                    │
+│  -k, --kscanner FILE  K-Scanner results.json path                 │
+│  -j, --json           Export JSON correlation report              │
+│  -o, --output-dir DIR Output directory (default: reports/)        │
+│  -V, --version        Show version                                │
+│  -h, --help           Show this help                              │
+╰────────────────────────────────────────────────────────────────────╯
 ```
 
 ### Examples
 
 ```bash
+# Quick test with sample report
+./linx -l tests/sample_linspec.json
+
 # Correlate with LinSpec only
-./linx -l reports/report.json
+./linx -l /path/to/linspec_report.json
 
 # Full correlation with both tools
-./linx -l reports/report.json -k /tmp/kscan_results.json
+./linx -l /path/to/linspec_report.json -k /path/to/kscan_results.json
 
 # Export JSON for pipeline processing
-./linx -l report.json -k kscan.json -j -o /tmp/correlation
-
-# Quick assessment
-./linx -l report.json
+./linx -l /path/to/report.json -k /path/to/kscan.json -j -o /tmp/correlation
 ```
 
 ---
@@ -149,6 +150,9 @@ Phase 3: K-Scanner (Analyze)         --> RWX detection + YARA
 - [x] JSON Export with Severity Classification
 - [x] Minimal JSON Parser (zero dependencies)
 - [x] Docker Container Image
+- [x] Professional Terminal UI with Unicode box-drawing
+- [x] Descriptive error diagnostics for JSON parsing
+- [x] Sample test report (`tests/sample_linspec.json`)
 
 ---
 
@@ -183,7 +187,8 @@ make install      # install to /usr/local/bin
 │   ├── correlate.c
 │   └── report.c
 ├── tests/
-│   └── run_tests.sh
+│   ├── run_tests.sh
+│   └── sample_linspec.json           # Example report for testing
 ├── Dockerfile
 ├── LICENSE
 ├── Makefile

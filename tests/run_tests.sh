@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 PASS=0
 FAIL=0

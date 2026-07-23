@@ -50,7 +50,7 @@ static void json_escape(FILE *f, const char *s)
 int print_report(ctx_t *ctx)
 {
     if (ctx->finding_count == 0) {
-        printf("\n  " GRN "o" RESET " No correlation findings. System posture is consistent.\n");
+        printf("\n  " GRN "◆" RESET " No correlation findings. System posture is consistent.\n");
         return 0;
     }
 
@@ -78,7 +78,7 @@ int print_report(ctx_t *ctx)
         printf("\n");
     }
 
-    printf(BOLD "+---Summary-----------------------------------------------------------------+\n" RESET);
+    printf("\n  " CYN "─── Summary ─────────────────────────────────────────────────────" RESET "\n");
     printf("  %-30s %d\n", "LinSpec checks evaluated", ctx->checks_total);
     printf("  %-30s %d\n", "K-Scanner records loaded", ctx->kscanner_count);
     printf("  %-30s %d\n", "Correlation findings", ctx->finding_count);

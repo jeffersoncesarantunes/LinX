@@ -14,6 +14,7 @@
 #define GRN   "\x1B[32m"
 #define YEL   "\x1B[33m"
 #define BLU   "\x1B[34m"
+#define CYN   "\x1B[36m"
 #define BOLD  "\x1B[1m"
 #define RESET "\x1B[0m"
 

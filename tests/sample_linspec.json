@@ -1,0 +1,42 @@
+{
+    "hostname": "archlinux-test",
+    "kernel": "6.12.0-arch1-1",
+    "timestamp": "2026-07-23T19:30:00Z",
+    "checks": [
+        {
+            "name": "kptr_restrict",
+            "result": "VULN",
+            "category": "kernel",
+            "current": 0,
+            "expected": 2
+        },
+        {
+            "name": "ptrace_scope",
+            "result": "VULN",
+            "category": "kernel",
+            "current": 0,
+            "expected": 1
+        },
+        {
+            "name": "aslr",
+            "result": "PASS",
+            "category": "kernel",
+            "current": 2,
+            "expected": 2
+        },
+        {
+            "name": "dmesg_restrict",
+            "result": "WARN",
+            "category": "kernel",
+            "current": 0,
+            "expected": 1
+        },
+        {
+            "name": "unpriv_bpf",
+            "result": "PASS",
+            "category": "kernel",
+            "current": 1,
+            "expected": 1
+        }
+    ]
+}
