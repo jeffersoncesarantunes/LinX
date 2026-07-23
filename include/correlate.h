@@ -1,7 +1,6 @@
 #ifndef CORRELATE_H
 #define CORRELATE_H
 
-#define LINXC_VERSION "1.0.0"
 #define MAX_NAME 64
 #define MAX_PATH 256
 #define MAX_DESC 256

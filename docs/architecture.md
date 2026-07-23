@@ -80,7 +80,7 @@ print_report() / export_json()
 ## The Correlation Contract
 
 The main architectural output is `correlation_report.json`. It contains:
-- Tool name and version
+- Tool name
 - Hostname, kernel, and timestamp from the source reports
 - LinSpec summary statistics
 - Per-finding severity, title, detail, source, related check/PID, recommendation

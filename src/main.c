@@ -6,7 +6,7 @@
 
 static void print_usage(void)
 {
-    printf(BOLD "LinX v" LINXC_VERSION " - Forensic Correlation Engine\n" RESET);
+    printf(BOLD "LinX - Forensic Correlation Engine\n" RESET);
     printf("Usage: linx [options]\n\n");
     printf("Options:\n");
     printf("  -l, --linspec FILE   LinSpec report.json path\n");
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
         } else if (strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--output-dir") == 0) {
             if (i + 1 < argc) output_dir = argv[++i];
         } else if (strcmp(argv[i], "-V") == 0 || strcmp(argv[i], "--version") == 0) {
-            printf("LinX v" LINXC_VERSION "\n");
+            printf("LinX\n");
             return 0;
         } else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
             print_usage();
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
     ctx_t ctx;
     ctx_init(&ctx);
 
-    printf(BOLD "+---LinX v" LINXC_VERSION "-------------------------------------------------+\n" RESET);
+    printf(BOLD "+---LinX --------------------------------------------------------------------------+\n" RESET);
     printf("  Forensic Correlation Engine\n");
     printf(BOLD "+-------------------------------------------------------------------------------+\n\n" RESET);
 

@@ -71,7 +71,7 @@ sudo ./linx -l report.json -k kscan_results.json -j
 ## Usage
 
 ```
-LinX v1.0.0 - Forensic Correlation Engine
+LinX - Forensic Correlation Engine
 Usage: linx [options]
 
 Options:

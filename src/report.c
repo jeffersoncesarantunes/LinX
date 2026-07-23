@@ -122,7 +122,7 @@ int export_json(ctx_t *ctx, const char *outdir)
 
     fprintf(f, "{\n");
     fprintf(f, "  \"tool\": \"LinX\",\n");
-    fprintf(f, "  \"version\": \"" LINXC_VERSION "\",\n");
+
     fprintf(f, "  \"hostname\": ");
     json_escape(f, ctx->hostname);
     fprintf(f, ",\n");
