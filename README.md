@@ -47,9 +47,6 @@ LinSpec tells you which kernel hardening parameters are misconfigured. K-Scanner
 
 ---
 
-
----
-
 ## Quick Start
 
 ```bash
