@@ -68,17 +68,17 @@ sudo ./linx -l /path/to/linspec_report.json -k /path/to/kscan_results.json -j
 ## Usage
 
 ```
-╭─── LinX ───────────────────────────────────────────────────────────╮
-│  Forensic Correlation Engine                                       │
-│  Usage: linx [options]                                             │
-│                                                                    │
-│  -l, --linspec FILE   LinSpec report.json path                     │
-│  -k, --kscanner FILE  K-Scanner results.json path                  │
-│  -j, --json           Export JSON correlation report               │
-│  -o, --output-dir DIR Output directory (default: reports/)         │
-│  -V, --version        Show version                                 │
-│  -h, --help           Show this help                               │
-╰────────────────────────────────────────────────────────────────────╯
+╭─── LinX ────────────────────────────────────────────────────────────╮
+│  Forensic Correlation Engine                                        │
+│  Usage: linx [options]                                              │
+│                                                                     │
+│  -l, --linspec FILE   LinSpec report.json path                      │
+│  -k, --kscanner FILE  K-Scanner results.json path                   │
+│  -j, --json           Export JSON correlation report                │
+│  -o, --output-dir DIR Output directory (default: reports/)          │
+│  -V, --version        Show version                                  │
+│  -h, --help           Show this help                                │
+╰─────────────────────────────────────────────────────────────────────╯
 ```
 
 ### Examples
