@@ -1,0 +1,22 @@
+[
+    {
+        "pid": 1204,
+        "process": "chromium-browser",
+        "confidence": "CRITICAL"
+    },
+    {
+        "pid": 872,
+        "process": "python3",
+        "confidence": "MEDIUM"
+    },
+    {
+        "pid": 3102,
+        "process": "node",
+        "confidence": "LOW"
+    },
+    {
+        "pid": 0,
+        "process": "idle",
+        "confidence": "SAFE"
+    }
+]

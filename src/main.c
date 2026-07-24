@@ -6,17 +6,17 @@
 
 static void print_usage(void)
 {
-    printf(CYN "╭─── LinX ───────────────────────────────────────────────────────────╮\n" RESET);
+    printf(CYN "╭─── LinX ────────────────────────────────────────────────────────────╮\n" RESET);
     printf(CYN "│" RESET "  " BOLD "Forensic Correlation Engine" RESET "  " CYN "                               │\n" RESET);
     printf(CYN "│" RESET "  " BOLD "Usage:" RESET " linx [options]" CYN "                                        │\n" RESET);
-    printf(CYN "│" RESET "                                                              " CYN "│\n" RESET);
-    printf(CYN "│" RESET "  -l, --linspec FILE   LinSpec report.json path              " CYN "│\n" RESET);
-    printf(CYN "│" RESET "  -k, --kscanner FILE  K-Scanner results.json path           " CYN "│\n" RESET);
-    printf(CYN "│" RESET "  -j, --json           Export JSON correlation report        " CYN "│\n" RESET);
-    printf(CYN "│" RESET "  -o, --output-dir DIR Output directory (default: reports/)  " CYN "│\n" RESET);
-    printf(CYN "│" RESET "  -V, --version        Show version                          " CYN "│\n" RESET);
-    printf(CYN "│" RESET "  -h, --help           Show this help                        " CYN "│\n" RESET);
-    printf(CYN "╰────────────────────────────────────────────────────────────────────╯\n" RESET);
+    printf(CYN "│" RESET "                                                               " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -l, --linspec FILE   LinSpec report.json path               " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -k, --kscanner FILE  K-Scanner results.json path            " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -j, --json           Export JSON correlation report         " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -o, --output-dir DIR Output directory (default: reports/)   " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -V, --version        Show version                           " CYN "│\n" RESET);
+    printf(CYN "│" RESET "  -h, --help           Show this help                         " CYN "│\n" RESET);
+    printf(CYN "╰─────────────────────────────────────────────────────────────────────╯\n" RESET);
 }
 
 int main(int argc, char **argv)
@@ -58,10 +58,10 @@ int main(int argc, char **argv)
     ctx_t ctx;
     ctx_init(&ctx);
 
-    printf(CYN "╭─── LinX ───────────────────────────────────────────────────────────╮\n" RESET);
-    printf(CYN "│" RESET "                     " BOLD "Forensic Correlation Engine" RESET "                    " CYN "│\n" RESET);
-    printf(CYN "│" RESET "                        linux security fusion                       " CYN "│\n" RESET);
-    printf(CYN "╰────────────────────────────────────────────────────────────────────╯\n" RESET);
+    printf(CYN "╭─── LinX ────────────────────────────────────────────────────────────╮\n" RESET);
+    printf(CYN "│" RESET "                     " BOLD "Forensic Correlation Engine" RESET "                     " CYN "│\n" RESET);
+    printf(CYN "│" RESET "                        linux security fusion                        " CYN "│\n" RESET);
+    printf(CYN "╰─────────────────────────────────────────────────────────────────────╯\n" RESET);
 
     if (linspec_path) {
         if (parse_linspec_file(&ctx, linspec_path) != 0) {
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
                ctx.kscanner_count);
     }
 
-    printf(CYN "\n╭─── Correlation Analysis ───────────────────────────────────────────────╮\n" RESET);
+    printf(CYN "\n╭─── Correlation Analysis ────────────────────────────────────────────╮\n" RESET);
     run_correlation(&ctx);
     print_report(&ctx);
 

@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <sys/stat.h>
 #include "correlate.h"
 
 void ctx_init(ctx_t *ctx)
@@ -18,25 +17,31 @@ static int file_read(const char *path, char **out, size_t *out_len)
         fprintf(stderr, "  " RED "x" RESET " Cannot open file: %s\n", path);
         return -1;
     }
-    struct stat st;
-    if (fstat(fileno(f), &st) != 0) {
-        fprintf(stderr, "  " RED "x" RESET " Cannot stat file: %s\n", path);
+    if (fseek(f, 0, SEEK_END) != 0) {
+        fprintf(stderr, "  " RED "x" RESET " Cannot seek file: %s\n", path);
         fclose(f);
         return -1;
     }
-    if (st.st_size == 0) {
+    long sz = ftell(f);
+    if (sz < 0) {
+        fprintf(stderr, "  " RED "x" RESET " Cannot determine file size: %s\n", path);
+        fclose(f);
+        return -1;
+    }
+    if (sz == 0) {
         fprintf(stderr, "  " RED "x" RESET " File is empty: %s\n", path);
         fclose(f);
         return -1;
     }
-    *out = malloc((size_t)st.st_size + 1);
+    rewind(f);
+    *out = malloc((size_t)sz + 1);
     if (!*out) {
         fprintf(stderr, "  " RED "x" RESET " Out of memory reading: %s\n", path);
         fclose(f);
         return -1;
     }
-    *out_len = (size_t)fread(*out, 1, (size_t)st.st_size, f);
-    if (*out_len == 0 && st.st_size > 0) {
+    *out_len = fread(*out, 1, (size_t)sz, f);
+    if (*out_len == 0 && sz > 0) {
         fprintf(stderr, "  " RED "x" RESET " Read error: %s\n", path);
         free(*out); *out = NULL; fclose(f);
         return -1;
@@ -95,7 +100,16 @@ static const char *json_skip_value(const char *p)
         if (*p) p++;
     } else if (*p == '"') {
         p++;
-        while (*p && !(*p == '"' && *(p - 1) != '\\')) p++;
+        while (*p) {
+            if (*p == '\\' && *(p + 1)) {
+                p += 2;
+            } else if (*p == '"') {
+                p++;
+                break;
+            } else {
+                p++;
+            }
+        }
         if (*p) p++;
     } else {
         while (*p && *p != ',' && *p != '}' && *p != ']' && *p != '\n') p++;

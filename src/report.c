@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include "correlate.h"
@@ -112,7 +113,10 @@ int export_json(ctx_t *ctx, const char *outdir)
         snprintf(dir, sizeof(dir), "%s", outdir);
     }
 
-    mkdir(dir, 0755);
+    if (mkdir(dir, 0755) != 0 && errno != EEXIST) {
+        fprintf(stderr, "Error: cannot create output directory %s\n", dir);
+        return -1;
+    }
 
     char path[512];
     snprintf(path, sizeof(path), "%s/correlation_report.json", dir);
